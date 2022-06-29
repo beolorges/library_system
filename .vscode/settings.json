@@ -6,6 +6,7 @@
     "xstring": "cpp",
     "chrono": "cpp",
     "vector": "cpp",
-    "algorithm": "cpp"
+    "algorithm": "cpp",
+    "stdexcept": "cpp"
   }
 }

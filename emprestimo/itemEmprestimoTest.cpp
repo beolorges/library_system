@@ -34,7 +34,7 @@ void testSetDataDevolucao(itemEmprestimo _itemEmprestimo)
 
 int main()
 {
-    livro livroTest(10, "testTitle", "testEditora", 2222, "testMonth");
+    livro *livroTest = new livro(10, "testTitle", "testEditora", 2222, "testMonth");
     try
     {
         itemEmprestimo itemEmprestimoTest(livroTest);

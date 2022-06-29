@@ -24,29 +24,40 @@ public:
     emprestimo(date _dataPrevDevolucao, usuario _usuario) : dataPrevDevolucao(_dataPrevDevolucao), usuarioEmprestimo(_usuario), dataEmprestimo(), numero(++this->proxNum){};
     ~emprestimo(){};
 
-    vector<itemEmprestimo>::iterator encontrarLivro(livro _livro);
+    vector<itemEmprestimo>::iterator encontrarLivro(livro *_livro);
 
-    void adicionarLivro(livro _livro);
-    void excluirLivro(livro _livro);
-    void devolverLivro(livro _livro);
-    void devolverTodos(){};
+    void adicionarLivro(livro *_livro);
+    void excluirLivro(livro *_livro);
+    void devolverLivro(livro *_livro);
+    void devolverTodos();
 
     usuario getUser() const { return this->usuarioEmprestimo; }
     int getNumber() const { return this->numero; }
+    date getDataEmprestimo() const { return this->dataEmprestimo; }
+    date getDataDevolucao(livro *_livro); // TENTAR ADICIONAR CONST
+    date getDataPrevDevolucao() const { return this->dataPrevDevolucao; }
+    vector<itemEmprestimo> getItens() const { return this->itens; }
 };
 
-void emprestimo::adicionarLivro(livro _livro)
+date emprestimo::getDataDevolucao(livro *_livro)
 {
-    _livro.decrementaQtdExemplares();
+    vector<itemEmprestimo>::iterator it = encontrarLivro(_livro);
+
+    return it->getDataDevolucao();
+}
+
+void emprestimo::adicionarLivro(livro *_livro)
+{
+    _livro->decrementaQtdExemplares();
     this->itens.push_back(itemEmprestimo(_livro));
 }
 
-vector<itemEmprestimo>::iterator emprestimo::encontrarLivro(livro _livro)
+vector<itemEmprestimo>::iterator emprestimo::encontrarLivro(livro *_livro)
 {
     vector<itemEmprestimo>::iterator it = this->itens.begin();
     while (it != this->itens.end())
     {
-        if (it->getItem() == _livro)
+        if (it->getItem() == *_livro)
             break;
 
         it++;
@@ -58,31 +69,30 @@ vector<itemEmprestimo>::iterator emprestimo::encontrarLivro(livro _livro)
     return it;
 }
 
-void emprestimo::excluirLivro(livro _livro)
+void emprestimo::excluirLivro(livro *_livro)
 {
     vector<itemEmprestimo>::iterator it = encontrarLivro(_livro);
 
-    _livro.incrementaQtdExemplares();
+    _livro->incrementaQtdExemplares();
     this->itens.erase(it);
 }
 
-void emprestimo::devolverLivro(livro _livro)
+void emprestimo::devolverLivro(livro *_livro)
 {
     vector<itemEmprestimo>::iterator it = encontrarLivro(_livro);
     it->setDataDevolucao();
-    _livro.incrementaQtdExemplares();
+    _livro->incrementaQtdExemplares();
 }
 
-// void emprestimo::devolverTodos()
-// {
-//     for (vector<itemEmprestimo>::iterator it = this->itens.begin(); it != this->itens.end(); it++)
-//     {
-//         it->getItem();
-//     }
-
-//     for_each(this->itens.begin(), this->itens.end(),
-//              [this](livro _livro)
-//              { this->devolverLivro(_livro); });
-// }
+void emprestimo::devolverTodos()
+{
+    vector<itemEmprestimo>::iterator it = this->itens.begin();
+    while (it != this->itens.end())
+    {
+        it->setDataDevolucao();
+        it->getPonteiroParaItem()->incrementaQtdExemplares();
+        it++;
+    }
+}
 
 #endif
