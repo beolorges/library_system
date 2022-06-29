@@ -11,10 +11,11 @@ private:
     date dataDevolucao;
 
 public:
-    itemEmprestimo(livro _item) : item(_item){}; // ADICIONAR NULL NO DATADEVOLUCAO
+    itemEmprestimo(livro _item) : item(_item), dataDevolucao(0){};
     ~itemEmprestimo(){};
 
     livro getItem() const { return item; };
+    date getDataDevolucao() const { return dataDevolucao; };
 
     void setDataDevolucao() { this->dataDevolucao = date(); };
 };

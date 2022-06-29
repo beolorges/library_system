@@ -31,8 +31,8 @@ public:
     void devolverLivro(livro _livro);
     void devolverTodos(){};
 
-    usuario getUser() { return this->usuarioEmprestimo; }
-    int getNumber() { return this->numero; }
+    usuario getUser() const { return this->usuarioEmprestimo; }
+    int getNumber() const { return this->numero; }
 };
 
 void emprestimo::adicionarLivro(livro _livro)
