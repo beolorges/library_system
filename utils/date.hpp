@@ -11,8 +11,13 @@ public:
     int ano;
 
     date();
+    date(int _null) : dia(0), mes(0), ano(0){};
     date(int dia, int mes, int ano) : dia(dia), mes(mes), ano(ano){};
     ~date(){};
+
+    int getDia() const { return dia; };
+    int getMes() const { return mes; };
+    int getAno() const { return ano; };
 };
 
 date::date()
