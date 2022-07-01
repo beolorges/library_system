@@ -1,5 +1,5 @@
 #include "usuario.hpp"
-#include "../utils/date.hpp"
+#include "../utils/Date.hpp"
 
 void testGetName(usuario _usuario)
 {
@@ -28,7 +28,7 @@ void testGetFone(usuario _usuario)
 int main()
 {
     usuario testUser("testName", "99999999999", "rua test", "24999999999");
-    date testDate;
+    Date testDate;
 
     try
     {

@@ -10,6 +10,7 @@ private:
     int qtdExemplares;
 
 public:
+    livro(){};
     livro(const int _codPublicacao, const string _titulo, const string _editora, const int _ano, const string _autores) : publicacao(_codPublicacao, _titulo, _editora, _ano), autores(_autores), qtdExemplares(0){};
     livro(const int _codPublicacao, const string _titulo, const string _editora, const int _ano, const string _autores, const int _qtdExemplares) : publicacao(_codPublicacao, _titulo, _editora, _ano), autores(_autores), qtdExemplares(_qtdExemplares){};
     ~livro(){};
@@ -20,8 +21,26 @@ public:
     void incrementaQtdExemplares();
     void decrementaQtdExemplares();
 
+    void setAutores(const string _autores) { this->autores = _autores; };
+    void setQtdExemplares(const int _qtdExemplares) { this->qtdExemplares = _qtdExemplares; };
+
+    void setDados(map<string, string> dados);
+
     bool operator==(const livro _livro) const;
 };
+
+/**
+ * @brief Seta os dados de um livro inicializado sem dados
+ *
+ * @param dados
+ */
+
+void livro::setDados(map<string, string> dados)
+{
+    publicacao::setDados(dados);
+    this->setAutores(dados["Autores"]);
+    this->setQtdExemplares(stoi(dados["QtdExemplares"]));
+}
 
 void livro::incrementaQtdExemplares()
 {

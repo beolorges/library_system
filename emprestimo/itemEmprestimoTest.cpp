@@ -10,13 +10,13 @@ void testGetItem(itemEmprestimo _itemEmprestimo)
 void testGetDataDevolucao(itemEmprestimo _itemEmprestimo)
 {
     if (_itemEmprestimo.getDataDevolucao().getDia() != 0)
-        throw std::runtime_error("The date was not created correctly");
+        throw std::runtime_error("The Date was not created correctly");
 
     if (_itemEmprestimo.getDataDevolucao().getMes() != 0)
-        throw std::runtime_error("The date was not created correctly");
+        throw std::runtime_error("The Date was not created correctly");
 
     if (_itemEmprestimo.getDataDevolucao().getAno() != 0)
-        throw std::runtime_error("The date was not created correctly");
+        throw std::runtime_error("The Date was not created correctly");
 };
 
 void testSetDataDevolucao(itemEmprestimo _itemEmprestimo)

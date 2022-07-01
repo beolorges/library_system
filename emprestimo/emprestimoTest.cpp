@@ -1,18 +1,18 @@
 #include "emprestimo.hpp"
 #include "../usuario/usuario.hpp"
-#include "../utils/date.hpp"
+#include "../utils/Date.hpp"
 
 int emprestimo::proxNum = 0;
 
 void testGetUser(emprestimo _emprestimo)
 {
-    if (_emprestimo.getUser().getNome() != "testName")
+    if (_emprestimo.getUsuario().getNome() != "testName")
         throw runtime_error("Error setUser");
 };
 
 void testGetNumber(emprestimo _emprestimo)
 {
-    if (_emprestimo.getNumber() != 1)
+    if (_emprestimo.getNumero() != 1)
         throw runtime_error("Error static number");
 };
 
@@ -112,7 +112,7 @@ void testDevolverTodosLivros(emprestimo _emprestimo)
 int main()
 {
     usuario testUser("testName", "testCpf", "rua test", "testNumber");
-    date testDate(10, 10, 2022);
+    Date testDate(10, 10, 2022);
     emprestimo testEmprestimo(testDate, testUser);
 
     try

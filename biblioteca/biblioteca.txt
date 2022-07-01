@@ -1,0 +1,82 @@
+Usuários:
+	Nome: testName
+	CPF: testCpf
+	Telefone: testNumber
+	Endereço: rua test
+	Data penalização: 30/6/2022
+	----------------------------------------------------------------------------
+	Nome: testName2
+	CPF: testCpf2
+	Telefone: testNumber2
+	Endereço: rua test2
+	Data penalização: 30/6/2022
+	----------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+Publicações:
+	Livro:
+		Titulo: Titulo
+		Autor: Autor
+		Editora: Editora
+		Ano: 2019
+		Código da Publicação: 1
+		Quantidade de exemplares disponíveis: 9
+	----------------------------------------------------------------------------
+	Livro:
+		Titulo: TituloTest2
+		Autor: Autor
+		Editora: Editora
+		Ano: 2019
+		Código da Publicação: 1
+		Quantidade de exemplares disponíveis: 9
+	----------------------------------------------------------------------------
+	Periódico:
+		Titulo: TituloPeriodicoTest
+		Editora: Editora
+		Ano: 2022
+		Mes: Junho
+		Número da edição: 2
+		Código da Publicação: 3
+	----------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+Empréstimos:
+	Usuário: 
+		Nome: testName
+		CPF: testCpf
+		Telefone: testNumber
+		Endereço: rua test
+		Data penalização: 30/6/2022
+	----------------------------------------------------------------------------
+
+	Dados emprestimo: 
+		Número do emprestimo: 4
+		Data de empréstimo: 30/6/2022
+		Data Prevista de devolução: 10/10/2022
+	----------------------------------------------------------------------------
+
+	Itens do emprestimo: 
+		Código: 1		Título: Titulo		Devolução: Não devolvido
+		------------------------------------------------------------------------
+		Código: 1		Título: TituloTest2		Devolução: Não devolvido
+		------------------------------------------------------------------------
+	----------------------------------------------------------------------------
+	Usuário: 
+		Nome: testName2
+		CPF: testCpf2
+		Telefone: testNumber2
+		Endereço: rua test2
+		Data penalização: 30/6/2022
+	----------------------------------------------------------------------------
+
+	Dados emprestimo: 
+		Número do emprestimo: 5
+		Data de empréstimo: 30/6/2022
+		Data Prevista de devolução: 12/12/2022
+	----------------------------------------------------------------------------
+
+	Itens do emprestimo: 
+		Código: 1		Título: TituloTest2		Devolução: 30/6/2022
+		------------------------------------------------------------------------
+	----------------------------------------------------------------------------
+--------------------------------------------------------------------------------
