@@ -1,9 +1,9 @@
-#include "./usuario/usuario.hpp"
-#include "./publicacao/livro.hpp"
-#include "./publicacao/periodico.hpp"
-#include "./emprestimo/emprestimo.hpp"
-#include "./emprestimo/itemEmprestimo.hpp"
-
+#include "interface/interface.hpp"
 int main()
 {
+    interface *minhaInterface = new interface();
+
+    minhaInterface->main();
+    delete minhaInterface;
+    return 0;
 }

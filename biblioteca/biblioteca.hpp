@@ -21,7 +21,6 @@ private:
     vector<usuario *> usuarios;
     vector<publicacao *> publicacoes;
     vector<emprestimo *> emprestimos;
-    usuario *getUsuarioPeloCpf(const string) const;
 
 public:
     biblioteca(){};
@@ -30,7 +29,7 @@ public:
     inline void adicionarUsuario(usuario *_usuario) { this->usuarios.push_back(_usuario); };
     inline void adicionarPublicacao(publicacao *_publicacao) { this->publicacoes.push_back(_publicacao); };
     inline void adicionarEmprestimo(emprestimo *_emprestimo) { this->emprestimos.push_back(_emprestimo); };
-    inline void adicionarItemAoEmprestimo(emprestimo *_emprestimo, livro *_livro) { _emprestimo->adicionarLivro(_livro); };
+    inline void adicionarItemAoEmprestimo(emprestimo *_emprestimo, livro *_livro);
     void removerUsuario(usuario *_usuario);
     void removerPublicacao(publicacao *_publicacao);
     inline void removerItemDoEmprestimo(emprestimo *_emprestimo, livro *_livro) { _emprestimo->excluirLivro(_livro); };
@@ -48,9 +47,39 @@ public:
     bool existeEmprestimoParaUsuario(usuario *_usuario);
     bool existeEmprestimoParaLivro(livro *_livro);
 
+    usuario *getUsuarioPeloCpf(const string) const;
+    publicacao *getPublicacaoPeloCodigo(const int) const;
+    emprestimo *getEmprestimoPeloCodigo(const int) const;
+
     void gravarDados();
     void lerDados();
 };
+
+void biblioteca::adicionarItemAoEmprestimo(emprestimo *_emprestimo, livro *_livro)
+{
+    if (typeid(*_livro) != typeid(livro))
+        throw invalid_argument("Não é possível emprestar um periódico");
+
+    _emprestimo->adicionarLivro(_livro);
+}
+
+emprestimo *biblioteca::getEmprestimoPeloCodigo(const int _codigo) const
+{
+    for (auto &emprestimo : this->emprestimos)
+        if (emprestimo->getNumero() == _codigo)
+            return emprestimo;
+
+    throw runtime_error("Não existe nenhum emprestimo com esse código");
+}
+
+publicacao *biblioteca::getPublicacaoPeloCodigo(const int _codigo) const
+{
+    for (auto &publicacao : this->publicacoes)
+        if (publicacao->getCodPublicacao() == _codigo)
+            return publicacao;
+
+    throw runtime_error("Não existe nenhuma publicação com esse código!");
+}
 
 void biblioteca::removerPublicacao(publicacao *_publicacao)
 {

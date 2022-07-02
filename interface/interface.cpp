@@ -1,48 +1,6 @@
-#ifndef INTERFACE_HPP
-#define INTERFACE_HPP
+#include "interface.hpp"
 
-#include "../biblioteca/biblioteca.hpp"
-#include "../emprestimo/emprestimo.hpp"
-#include "../publicacao/publicacao.hpp"
-
-int emprestimo::proxNum = 0;
-class interface
-{
-private:
-    biblioteca minhaBiblioteca;
-    void adicionarItem(emprestimo *);
-    void removerItem(emprestimo *);
-    void devolverItem(emprestimo *);
-
-public:
-    interface(){};
-    ~interface(){};
-
-    void apresentarMenu();
-
-    void cadastrarUsuario();
-    void removerUsuario();
-
-    void cadastrarLivro();
-    void cadastrarPeriodico();
-    void removerLivro();
-    void removerPeriodico();
-
-    void cadastrarEmprestimo();
-    void removerEmprestimo();
-
-    void adicionarItemAoEmprestimo();
-    void removerItemDoEmprestimo();
-    void devolverTodosItensDoEmprestimo();
-    void devolverItemDoEmprestimo();
-
-    void listarPublicacaoPorTitulo();
-    void listarLivroPorAutor();
-    void listarPublicacoes();
-    void listarEmprestimos();
-
-    void main();
-};
+// int emprestimo::proxNum = 0;
 
 void interface::apresentarMenu()
 {
@@ -79,9 +37,6 @@ void interface::cadastrarUsuario()
     getline(cin, email);
     usuario *u = new usuario(nome, cpf, telefone, email);
     minhaBiblioteca.adicionarUsuario(u);
-
-    cout << "Usuario cadastrado com sucesso!" << endl
-         << endl;
 }
 
 void interface::removerUsuario()
@@ -90,8 +45,6 @@ void interface::removerUsuario()
     cout << "Insira o CPF do usuário a ser removido: ";
     getline(cin, cpf);
     minhaBiblioteca.removerUsuario(minhaBiblioteca.getUsuarioPeloCpf(cpf));
-    cout << "Usuario removido com sucesso!" << endl
-         << endl;
 }
 
 void interface::cadastrarLivro()
@@ -114,9 +67,6 @@ void interface::cadastrarLivro()
 
     livro *l = new livro(codigoPublicacao, titulo, editora, ano, autores, qtdExemplares);
     minhaBiblioteca.adicionarPublicacao(l);
-
-    cout << "Livro cadastrado com sucesso!" << endl
-         << endl;
 }
 
 void interface::cadastrarPeriodico()
@@ -140,9 +90,6 @@ void interface::cadastrarPeriodico()
 
     periodico *p = new periodico(codigoPublicacao, titulo, editora, ano, mes, numEdicao);
     minhaBiblioteca.adicionarPublicacao(p);
-
-    cout << "Periodico cadastrado com sucesso!" << endl
-         << endl;
 }
 
 void interface::removerLivro()
@@ -151,8 +98,6 @@ void interface::removerLivro()
     cout << "Insira o código do livro a ser removido: ";
     cin >> codigoPublicacao;
     minhaBiblioteca.removerPublicacao(minhaBiblioteca.getPublicacaoPeloCodigo(codigoPublicacao));
-    cout << "Livro removido com sucesso!" << endl
-         << endl;
 }
 
 void interface::removerPeriodico()
@@ -161,8 +106,6 @@ void interface::removerPeriodico()
     cout << "Insira o código do periodico a ser removido: ";
     cin >> codigoPublicacao;
     minhaBiblioteca.removerPublicacao(minhaBiblioteca.getPublicacaoPeloCodigo(codigoPublicacao));
-    cout << "Periodico removido com sucesso!" << endl
-         << endl;
 }
 
 void interface::cadastrarEmprestimo()
@@ -173,7 +116,7 @@ void interface::cadastrarEmprestimo()
     usuario *u = minhaBiblioteca.getUsuarioPeloCpf(cpf);
 
     string data;
-    cout << "Insira a data prevista para devolução do emprestimo: ";
+    cout << "Insira a data do emprestimo: ";
     getline(cin, data);
     Date d = Date(data);
 
@@ -278,17 +221,9 @@ void interface::adicionarItem(emprestimo *e)
             break;
 
         publicacao *p = minhaBiblioteca.getPublicacaoPeloCodigo(codigoLivro);
+        e->adicionarLivro(dynamic_cast<livro *>(p));
 
-        try
-        {
-            e->adicionarLivro(dynamic_cast<livro *>(p));
-            cout << p->getTitulo() << " adicionado com sucesso!" << endl;
-        }
-        catch (const std::exception &e)
-        {
-            std::cerr << e.what() << "\n\n";
-        }
-
+        cout << p->getTitulo() << " adicionado com sucesso!" << endl;
         cout << "Insira o código do livro a ser inserido no emprestimo ou -1 para sair: ";
     };
 }
@@ -312,6 +247,7 @@ void interface::listarPublicacaoPorTitulo()
             cout << "\t\tAno: " << dynamic_cast<livro *>(p)->getAno() << endl;
             cout << "\t\tCódigo: " << dynamic_cast<livro *>(p)->getCodPublicacao() << endl;
             cout << "\t\tQuantidade: " << dynamic_cast<livro *>(p)->getQtdExemplares() << endl;
+            cout << "\t\t--------------------------------------------------------------" << endl;
         }
         else if (typeid(*p) == typeid(periodico))
         {
@@ -322,6 +258,7 @@ void interface::listarPublicacaoPorTitulo()
             cout << "\t\tEditora: " << dynamic_cast<periodico *>(p)->getEditora() << endl;
             cout << "\t\tCódigo: " << dynamic_cast<periodico *>(p)->getCodPublicacao() << endl;
             cout << "\t\tNúmero Edição: " << dynamic_cast<periodico *>(p)->getNumEdicao() << endl;
+            cout << "\t\t--------------------------------------------------------------" << endl;
         }
     }
 }
@@ -362,6 +299,7 @@ void interface::listarPublicacoes()
             cout << "\t\tAno: " << dynamic_cast<livro *>(p)->getAno() << endl;
             cout << "\t\tCódigo: " << dynamic_cast<livro *>(p)->getCodPublicacao() << endl;
             cout << "\t\tQuantidade: " << dynamic_cast<livro *>(p)->getQtdExemplares() << endl;
+            cout << "\t\t--------------------------------------------------------------" << endl;
         }
         else if (typeid(*p) == typeid(periodico))
         {
@@ -372,6 +310,7 @@ void interface::listarPublicacoes()
             cout << "\t\tEditora: " << dynamic_cast<periodico *>(p)->getEditora() << endl;
             cout << "\t\tCódigo: " << dynamic_cast<periodico *>(p)->getCodPublicacao() << endl;
             cout << "\t\tNúmero Edição: " << dynamic_cast<periodico *>(p)->getNumEdicao() << endl;
+            cout << "\t\t--------------------------------------------------------------" << endl;
         }
     }
 }
@@ -404,87 +343,77 @@ void interface::listarEmprestimos()
 void interface::main()
 {
     int opcao;
-    cout << "\n---------------Bem-vindo ao sistema de biblioteca!---------------" << endl;
     do
     {
-        try
+        cout << "Bem-vindo ao sistema de biblioteca!" << endl;
+        this->apresentarMenu();
+        cout << "Digite a opção desejada: ";
+        cin >> opcao;
+        cin.ignore();
+
+        switch (opcao)
         {
-            this->apresentarMenu();
-            cout << "Digite a opção desejada: ";
-            cin >> opcao;
-            cin.ignore();
+        case 1:
+            cadastrarUsuario();
+            break;
+        case 2:
+            cadastrarLivro();
+            break;
+        case 3:
+            cadastrarPeriodico();
+            break;
+        case 4:
+            cadastrarEmprestimo();
+            break;
+        case 5:
+            adicionarItemAoEmprestimo();
+            break;
+        case 6:
+            removerItemDoEmprestimo();
+            break;
+        case 7:
+            devolverTodosItensDoEmprestimo();
+            break;
+        case 8:
+            devolverItemDoEmprestimo();
+            break;
+        case 9:
+            listarPublicacaoPorTitulo();
+            break;
 
-            switch (opcao)
-            {
-            case 1:
-                cadastrarUsuario();
-                break;
-            case 2:
-                cadastrarLivro();
-                break;
-            case 3:
-                cadastrarPeriodico();
-                break;
-            case 4:
-                cadastrarEmprestimo();
-                break;
-            case 5:
-                adicionarItemAoEmprestimo();
-                break;
-            case 6:
-                removerItemDoEmprestimo();
-                break;
-            case 7:
-                devolverTodosItensDoEmprestimo();
-                break;
-            case 8:
-                devolverItemDoEmprestimo();
-                break;
-            case 9:
-                listarPublicacaoPorTitulo();
-                break;
+        case 10:
+            listarLivroPorAutor();
+            break;
 
-            case 10:
-                listarLivroPorAutor();
-                break;
+        case 11:
+            listarPublicacoes();
+            break;
 
-            case 11:
-                listarPublicacoes();
-                break;
+        case 12:
+            listarEmprestimos();
+            break;
 
-            case 12:
-                listarEmprestimos();
-                break;
+        case 13:
+            removerEmprestimo();
+            break;
 
-            case 13:
-                removerEmprestimo();
-                break;
+        case 14:
+            removerLivro();
+            break;
 
-            case 14:
-                removerLivro();
-                break;
+        case 15:
+            removerPeriodico();
+            break;
 
-            case 15:
-                removerPeriodico();
-                break;
+        case 16:
+            removerUsuario();
+            break;
 
-            case 16:
-                removerUsuario();
-                break;
-
-            case 17:
-                break;
-            default:
-                cout << "Opção inválida!" << endl;
-                break;
-            }
+        case 17:
+            break;
+        default:
+            cout << "Opção inválida!" << endl;
+            break;
         }
-        catch (const std::exception &e)
-        {
-            std::cerr << e.what() << "\n\n";
-        }
-
     } while (opcao != 10);
 }
-
-#endif

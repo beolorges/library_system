@@ -100,7 +100,7 @@ void emprestimo::excluirLivro(livro *_livro)
 
 void emprestimo::setDataPenalizacao()
 {
-    int deltaPenalizacao = this->getDataPrevDevolucao() - Date();
+    int deltaPenalizacao = Date() - this->getDataPrevDevolucao();
     Date dataPenalizacao = Date();
     if (deltaPenalizacao > 0)
         dataPenalizacao.incrementar3Dia(deltaPenalizacao);
@@ -115,7 +115,7 @@ void emprestimo::devolverLivro(livro *_livro)
     _livro->incrementaQtdExemplares();
 
     for (auto i : this->itens)
-        if (!i.getDataDevolucao().isZero())
+        if (i.getDataDevolucao().isZero())
             return;
 
     setDataPenalizacao();

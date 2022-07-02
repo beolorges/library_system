@@ -2,8 +2,6 @@
 #include "../usuario/usuario.hpp"
 #include "../utils/Date.hpp"
 
-int emprestimo::proxNum = 0;
-
 void testGetUser(emprestimo _emprestimo)
 {
     if (_emprestimo.getUsuario().getNome() != "testName")

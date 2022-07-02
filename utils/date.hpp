@@ -173,9 +173,9 @@ bool operator==(const Date &dt1, const Date &dt2)
 
 void Date::incrementar3Dia(const int quantidadeDias)
 {
-    for (auto i : quantidadeDias)
+    for (int i = 0; i < quantidadeDias; i++)
     {
-        this->dia.this->dia += 3;
+        this->dia += 3;
         if (this->dia > 30)
         {
             this->dia -= 30;
