@@ -1,9 +1,8 @@
-#include "interface/interface.hpp"
+#include "./interface/interface.hpp"
+
 int main()
 {
-    interface *minhaInterface = new interface();
-
-    minhaInterface->main();
-    delete minhaInterface;
+    Interface i;
+    i.main();
     return 0;
 }

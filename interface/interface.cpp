@@ -1,419 +1,447 @@
 #include "interface.hpp"
 
-// int emprestimo::proxNum = 0;
-
-void interface::apresentarMenu()
+void Interface::menuPrint() const
 {
-    cout << "1 - Cadastrar usuario" << endl;
+    cout << "1 - Cadastrar usuário" << endl;
     cout << "2 - Cadastrar livro" << endl;
-    cout << "3 - Cadastrar periodico" << endl;
-    cout << "4 - Cadastrar emprestimo" << endl;
-    cout << "5 - Adicionar item a um emprestimo" << endl;
-    cout << "6 - Remover item de um emprestimo" << endl;
-    cout << "7 - Devolver todos itens de um emprestimo" << endl;
-    cout << "8 - Devolver item de um emprestimo" << endl;
-    cout << "9 - Pesquisar publicações por título" << endl;
-    cout << "10 - Pesquisar livros por autor" << endl;
-    cout << "11 - Listar todas as publicacoes" << endl;
-    cout << "12 - Listar todos os emprestimos" << endl;
-    cout << "13 - Remover emprestimo" << endl;
-    cout << "14 - Remover livro" << endl;
-    cout << "15 - Remover periodico" << endl;
-    cout << "16 - Remover usuario" << endl;
-    cout << "17 - Sair" << endl;
+    cout << "3 - Cadastrar periódico" << endl;
+    cout << "4 - Cadastrar empréstimo" << endl;
+    cout << "5 - Entrar em um empréstimo" << endl;
+    cout << "6 - Pesquisar publicações por título" << endl;
+    cout << "7 - Pesquisar livros por autor" << endl;
+    cout << "8 - Listar todas as publicações" << endl;
+    cout << "9 - Listar todos os empréstimos" << endl;
+    cout << "10 - Remover empréstimo" << endl;
+    cout << "11 - Remover livro" << endl;
+    cout << "12 - Remover periódico" << endl;
+    cout << "13 - Remover usuário" << endl;
+    cout << "14 - Sair" << endl;
 }
 
-void interface::cadastrarUsuario()
+void Interface::userRegistration()
 {
-    string nome, cpf, telefone, email;
-    cout << "Insira os dados do usuário:" << endl;
+    string name;
+    string cpf;
+    string address;
+    string phone;
+
     cout << "Nome: ";
-    getline(cin, nome);
+    getline(cin, name);
     cout << "CPF: ";
     getline(cin, cpf);
+    cout << "Endereço: ";
+    getline(cin, address);
     cout << "Telefone: ";
-    getline(cin, telefone);
-    cout << "Email: ";
-    getline(cin, email);
-    usuario *u = new usuario(nome, cpf, telefone, email);
-    minhaBiblioteca.adicionarUsuario(u);
+    getline(cin, phone);
+
+    myLibrary.userRegistration(new User(name, cpf, address, phone));
+    cout << "Usuário cadastrado com sucesso!" << endl;
+    cout << "Bem vindo ao sistema de biblioteca, " << name << "!" << endl;
 }
 
-void interface::removerUsuario()
+void Interface::userExclude()
 {
     string cpf;
-    cout << "Insira o CPF do usuário a ser removido: ";
-    getline(cin, cpf);
-    minhaBiblioteca.removerUsuario(minhaBiblioteca.getUsuarioPeloCpf(cpf));
-}
 
-void interface::cadastrarLivro()
-{
-    string titulo, autores, editora;
-    int codigoPublicacao, ano, qtdExemplares;
-    cout << "Insira os dados do livro:" << endl;
-    cout << "Titulo: ";
-    getline(cin, titulo);
-    cout << "Autores: ";
-    getline(cin, autores);
-    cout << "Editora: ";
-    getline(cin, editora);
-    cout << "Código Publicação: ";
-    cin >> codigoPublicacao;
-    cout << "Ano: ";
-    cin >> ano;
-    cout << "Quantidade de exemplares: ";
-    cin >> qtdExemplares;
-
-    livro *l = new livro(codigoPublicacao, titulo, editora, ano, autores, qtdExemplares);
-    minhaBiblioteca.adicionarPublicacao(l);
-}
-
-void interface::cadastrarPeriodico()
-{
-    string titulo, editora, mes;
-    int codigoPublicacao, numEdicao, ano;
-
-    cout << "Insira os dados do periodico:" << endl;
-    cout << "Titulo: ";
-    getline(cin, titulo);
-    cout << "Editora: ";
-    getline(cin, editora);
-    cout << "Mes: ";
-    getline(cin, mes);
-    cout << "Ano: ";
-    cin >> ano;
-    cout << "Numero de edição: ";
-    cin >> numEdicao;
-    cout << "Código Publicação: ";
-    cin >> codigoPublicacao;
-
-    periodico *p = new periodico(codigoPublicacao, titulo, editora, ano, mes, numEdicao);
-    minhaBiblioteca.adicionarPublicacao(p);
-}
-
-void interface::removerLivro()
-{
-    int codigoPublicacao;
-    cout << "Insira o código do livro a ser removido: ";
-    cin >> codigoPublicacao;
-    minhaBiblioteca.removerPublicacao(minhaBiblioteca.getPublicacaoPeloCodigo(codigoPublicacao));
-}
-
-void interface::removerPeriodico()
-{
-    int codigoPublicacao;
-    cout << "Insira o código do periodico a ser removido: ";
-    cin >> codigoPublicacao;
-    minhaBiblioteca.removerPublicacao(minhaBiblioteca.getPublicacaoPeloCodigo(codigoPublicacao));
-}
-
-void interface::cadastrarEmprestimo()
-{
-    string cpf;
     cout << "Insira o CPF do usuário: ";
     getline(cin, cpf);
-    usuario *u = minhaBiblioteca.getUsuarioPeloCpf(cpf);
 
-    string data;
-    cout << "Insira a data do emprestimo: ";
-    getline(cin, data);
-    Date d = Date(data);
-
-    emprestimo *e = new emprestimo(d, u);
-    minhaBiblioteca.adicionarEmprestimo(e);
-
-    cout << "Emprestimo criado! Número do emprestimo é: " << e->getNumero() << endl;
-    this->adicionarItem(e);
+    myLibrary.userExclude(myLibrary.getUser(cpf));
+    cout << "Usuário excluído com sucesso!" << endl;
 }
 
-void interface::removerEmprestimo()
-{
-    int numero;
-    cout << "Insira o número do emprestimo a ser removido: ";
-    cin >> numero;
-    minhaBiblioteca.excluirEmprestimo(minhaBiblioteca.getEmprestimoPeloCodigo(numero));
+/**
+ * @brief Coleta os dados gerais de uma publicação e retorna um map com os dados
+ *
+ * @return map<string, string>
+ */
 
-    cout << "Emprestimo número " << numero << " excluido com sucesso!" << endl;
+map<string, string> Interface::publicationRegistration()
+{
+    map<string, string> publicationData;
+    string publicationCode;
+    string title;
+    string publisher;
+    string year;
+
+    cout << "Código de publicação: ";
+    getline(cin, publicationCode);
+    cout << "Título: ";
+    getline(cin, title);
+    cout << "Editora: ";
+    getline(cin, publisher);
+    cout << "Ano: ";
+    getline(cin, year);
+
+    publicationData["publicationCode"] = publicationCode;
+    publicationData["title"] = title;
+    publicationData["publisher"] = publisher;
+    publicationData["year"] = year;
+
+    return publicationData;
 }
 
-void interface::adicionarItemAoEmprestimo()
+void Interface::bookRegistration()
 {
-    int numero;
-    cout << "Insira o número do emprestimo: ";
-    cin >> numero;
-    emprestimo *e = minhaBiblioteca.getEmprestimoPeloCodigo(numero);
+    map<string, string> publicationData = publicationRegistration();
+    string author;
+    int quantity;
 
-    this->adicionarItem(e);
+    cout << "Autor: ";
+    getline(cin, author);
+    cout << "Quantidade: ";
+    if (!(cin >> quantity))
+        throw runtime_error("Carácter inválido");
+
+    myLibrary.publicationRegistration(new Book(publicationData, author, quantity));
+    cout << publicationData["title"] << " cadastrado com sucesso!" << endl;
 }
 
-void interface::removerItemDoEmprestimo()
+void Interface::bookExclude()
 {
-    int numero;
-    cout << "Insira o número do emprestimo: ";
-    cin >> numero;
-    emprestimo *e = minhaBiblioteca.getEmprestimoPeloCodigo(numero);
+    int publicationCode;
 
-    this->removerItem(e);
+    cout << "Insira o código de publicação do livro a ser excluído: ";
+    if (!(cin >> publicationCode))
+        throw runtime_error("Carácter inválido");
+
+    myLibrary.publicationExclude(myLibrary.getBook(publicationCode));
+    cout << "Livro excluído com sucesso!" << endl;
 }
 
-void interface::devolverItemDoEmprestimo()
+void Interface::periodicalRegistration()
 {
-    int numero;
-    cout << "Insira o número do emprestimo: ";
-    cin >> numero;
-    emprestimo *e = minhaBiblioteca.getEmprestimoPeloCodigo(numero);
+    map<string, string> publicationData = publicationRegistration();
+    string month;
+    int editionNumber;
 
-    this->devolverItem(e);
+    cout << "Mês: ";
+    getline(cin, month);
+    cout << "Número da Edição: ";
+    if (!(cin >> editionNumber))
+        throw runtime_error("Carácter inválido");
+
+    myLibrary.publicationRegistration(new Periodical(publicationData, month, editionNumber));
+    cout << publicationData["title"] << " cadastrado com sucesso!" << endl;
 }
 
-void interface::devolverTodosItensDoEmprestimo()
+void Interface::periodicalExclude()
 {
-    int numero;
-    cout << "Insira o número do emprestimo: ";
-    cin >> numero;
-    emprestimo *e = minhaBiblioteca.getEmprestimoPeloCodigo(numero);
+    int publicationCode;
 
-    e->devolverTodos();
-    cout << "Todos os livros foram devolvidos com sucesso!" << endl;
+    cout << "Insira o código de publicação do periódico a ser excluído: ";
+    if (!(cin >> publicationCode))
+        throw runtime_error("Carácter inválido");
+
+    myLibrary.publicationExclude(myLibrary.getPeriodical(publicationCode));
+    cout << "Periódico excluído com sucesso!" << endl;
 }
 
-void interface::devolverItem(emprestimo *e)
+map<int, map<string, string>> Interface::publicationSearchByTitle() const
 {
-    cout << "Insira o código do livro a ser removido no emprestimo ou -1 para sair: ";
-    int codigo;
-    while (cin >> codigo)
+    string title;
+
+    cout << "Insira o título a ser pesquisado: ";
+    getline(cin, title);
+
+    return myLibrary.publicationSearchByTitle(title);
+}
+
+map<int, map<string, string>> Interface::publicationSearchByAuthor() const
+{
+    string author;
+
+    cout << "Insira o autor a ser pesquisado: ";
+    getline(cin, author);
+
+    return myLibrary.publicationSearchByAuthor(author);
+}
+
+map<int, map<string, string>> Interface::publicationSearchAll() const
+{
+    return myLibrary.publicationList();
+}
+
+void Interface::publicationPrint(map<int, map<string, string>> publicationData) const
+{
+    map<int, map<string, string>>::iterator it = publicationData.begin();
+    while (it != publicationData.end())
     {
-        if (codigo == -1)
-            break;
+        cout << "Código de publicação: " << publicationData[it->first]["publicationCode"] << endl;
+        cout << "Título: " << publicationData[it->first]["title"] << endl;
+        cout << "Editora: " << publicationData[it->first]["publisher"] << endl;
+        cout << "Ano: " << publicationData[it->first]["year"] << endl;
 
-        publicacao *p = minhaBiblioteca.getPublicacaoPeloCodigo(codigo);
-        e->devolverLivro(dynamic_cast<livro *>(p));
-        cout << p->getTitulo() << " devolvido com sucesso!" << endl;
-        cout << "Insira o código do livro a ser removido no emprestimo ou -1 para sair: ";
-    }
-}
-
-void interface::removerItem(emprestimo *e)
-{
-    cout << "Insira o código do livro a ser removido no emprestimo ou -1 para sair: ";
-    int codigoPublicacao = 0;
-
-    while (cin >> codigoPublicacao)
-    {
-        if (codigoPublicacao == -1)
-            break;
-
-        publicacao *p = minhaBiblioteca.getPublicacaoPeloCodigo(codigoPublicacao);
-        e->excluirLivro(dynamic_cast<livro *>(p));
-        cout << p->getTitulo() << " excluido com sucesso!" << endl;
-        cout << "Insira o código do livro a ser removido no emprestimo ou -1 para sair: ";
-    }
-}
-
-void interface::adicionarItem(emprestimo *e)
-{
-    cout << "Insira o código do livro a ser inserido no emprestimo ou -1 para sair: ";
-    int codigoLivro = 0;
-    while (cin >> codigoLivro)
-    {
-        if (codigoLivro == -1)
-            break;
-
-        publicacao *p = minhaBiblioteca.getPublicacaoPeloCodigo(codigoLivro);
-        e->adicionarLivro(dynamic_cast<livro *>(p));
-
-        cout << p->getTitulo() << " adicionado com sucesso!" << endl;
-        cout << "Insira o código do livro a ser inserido no emprestimo ou -1 para sair: ";
-    };
-}
-
-void interface::listarPublicacaoPorTitulo()
-{
-    string titulo;
-    cout << "Insira o titulo da publicacao: ";
-    getline(cin, titulo);
-    vector<publicacao *> publicacoesPesquisadas = minhaBiblioteca.buscarPublicacaoPeloTitulo(titulo);
-
-    cout << "Publicações: " << endl;
-    for (auto p : publicacoesPesquisadas)
-    {
-        if (typeid(*p) == typeid(livro))
+        if (publicationData[it->first]["type"] == "Book")
         {
-            cout << "\tLivro:" << endl;
-            cout << "\t\tTítulo: " << dynamic_cast<livro *>(p)->getTitulo() << endl;
-            cout << "\t\tAutor: " << dynamic_cast<livro *>(p)->getAutores() << endl;
-            cout << "\t\tEditora: " << dynamic_cast<livro *>(p)->getEditora() << endl;
-            cout << "\t\tAno: " << dynamic_cast<livro *>(p)->getAno() << endl;
-            cout << "\t\tCódigo: " << dynamic_cast<livro *>(p)->getCodPublicacao() << endl;
-            cout << "\t\tQuantidade: " << dynamic_cast<livro *>(p)->getQtdExemplares() << endl;
-            cout << "\t\t--------------------------------------------------------------" << endl;
+            cout << "Autor: " << publicationData[it->first]["author"] << endl;
+            cout << "Quantidade de cópias: " << publicationData[it->first]["numberOfCopies"] << endl;
         }
-        else if (typeid(*p) == typeid(periodico))
+        else
         {
-            cout << "\tPeriódico:" << endl;
-            cout << "\t\tTítulo: " << dynamic_cast<periodico *>(p)->getTitulo() << endl;
-            cout << "\t\tMês: " << dynamic_cast<periodico *>(p)->getMes() << endl;
-            cout << "\t\tAno: " << dynamic_cast<periodico *>(p)->getAno() << endl;
-            cout << "\t\tEditora: " << dynamic_cast<periodico *>(p)->getEditora() << endl;
-            cout << "\t\tCódigo: " << dynamic_cast<periodico *>(p)->getCodPublicacao() << endl;
-            cout << "\t\tNúmero Edição: " << dynamic_cast<periodico *>(p)->getNumEdicao() << endl;
-            cout << "\t\t--------------------------------------------------------------" << endl;
+            cout << "Mês: " << publicationData[it->first]["month"] << endl;
+            cout << "Número da Edição: " << publicationData[it->first]["numberOfEdition"] << endl;
         }
+
+        it++;
     }
 }
 
-void interface::listarLivroPorAutor()
+Loan *Interface::loanRegistration()
 {
-    string autor;
-    cout << "Insira o autor do livro: ";
-    getline(cin, autor);
-    vector<livro *> publicacoesPesquisadas = minhaBiblioteca.buscarLivroPeloAutor(autor);
+    string userCPF;
+    string date;
 
-    cout << "Livros:" << endl;
-    for (auto p : publicacoesPesquisadas)
-    {
-        cout << "\tTítulo: " << p->getTitulo() << endl;
-        cout << "\tAutor: " << p->getAutores() << endl;
-        cout << "\tEditora: " << p->getEditora() << endl;
-        cout << "\tAno: " << p->getAno() << endl;
-        cout << "\tCódigo: " << p->getCodPublicacao() << endl;
-        cout << "\tQuantidade: " << p->getQtdExemplares() << endl;
-        cout << "\t--------------------------------------------------------------" << endl;
-    }
+    cout << "CPF do usuário: ";
+    getline(cin, userCPF);
+
+    cout << "Data prevista de devolução: ";
+    getline(cin, date);
+
+    Loan *loan = new Loan(myLibrary.getUser(userCPF), date);
+    int loanNumber = myLibrary.loanRegistration(loan);
+    cout << "Emprestimo número: " << loanNumber << endl;
+
+    return loan;
 }
 
-void interface::listarPublicacoes()
+Loan *Interface::loanByLoanNumber()
 {
-    vector<publicacao *> publicacoes = minhaBiblioteca.getPublicacoes();
+    int loanNumber;
 
-    cout << "Publicações: " << endl;
-    for (auto p : publicacoes)
-    {
-        if (typeid(*p) == typeid(livro))
-        {
-            cout << "\tLivro:" << endl;
-            cout << "\t\tTítulo: " << dynamic_cast<livro *>(p)->getTitulo() << endl;
-            cout << "\t\tAutor: " << dynamic_cast<livro *>(p)->getAutores() << endl;
-            cout << "\t\tEditora: " << dynamic_cast<livro *>(p)->getEditora() << endl;
-            cout << "\t\tAno: " << dynamic_cast<livro *>(p)->getAno() << endl;
-            cout << "\t\tCódigo: " << dynamic_cast<livro *>(p)->getCodPublicacao() << endl;
-            cout << "\t\tQuantidade: " << dynamic_cast<livro *>(p)->getQtdExemplares() << endl;
-            cout << "\t\t--------------------------------------------------------------" << endl;
-        }
-        else if (typeid(*p) == typeid(periodico))
-        {
-            cout << "\tPeriódico:" << endl;
-            cout << "\t\tTítulo: " << dynamic_cast<periodico *>(p)->getTitulo() << endl;
-            cout << "\t\tMês: " << dynamic_cast<periodico *>(p)->getMes() << endl;
-            cout << "\t\tAno: " << dynamic_cast<periodico *>(p)->getAno() << endl;
-            cout << "\t\tEditora: " << dynamic_cast<periodico *>(p)->getEditora() << endl;
-            cout << "\t\tCódigo: " << dynamic_cast<periodico *>(p)->getCodPublicacao() << endl;
-            cout << "\t\tNúmero Edição: " << dynamic_cast<periodico *>(p)->getNumEdicao() << endl;
-            cout << "\t\t--------------------------------------------------------------" << endl;
-        }
-    }
+    cout << "Insira o número do empréstimo: ";
+    if (!(cin >> loanNumber))
+        throw runtime_error("Carácter inválido");
+
+    Loan *thisLoan = myLibrary.getLoan(loanNumber);
+
+    return thisLoan;
 }
 
-void interface::listarEmprestimos()
+void Interface::loanOptions(Loan *thisLoan)
 {
-    vector<emprestimo *> emprestimos = minhaBiblioteca.getEmprestimos();
+    if (thisLoan == nullptr)
+        throw runtime_error("Empréstimo não encontrado");
 
-    for (auto e : emprestimos)
-    {
-        cout << "Emprestimo:" << endl;
-        cout << "\tCódigo: " << e->getNumero() << endl;
-        cout << "\tData de Empréstimo: " << e->getDataEmprestimo() << endl;
-        cout << "\tData prevista de Devolução: " << e->getDataPrevDevolucao() << endl;
-        cout << "\tUsuário: " << e->getUsuario()->getNome() << endl;
-        cout << "\tLivros:" << endl;
-        for (auto l : e->getItens())
-        {
-            cout << "\t\tTítulo: " << l.getItem().getTitulo() << endl;
-            cout << "\t\tAutor: " << l.getItem().getAutores() << endl;
-            cout << "\t\tEditora: " << l.getItem().getEditora() << endl;
-            cout << "\t\tAno: " << l.getItem().getAno() << endl;
-            cout << "\t\tCódigo: " << l.getItem().getCodPublicacao() << endl;
-            cout << "\t\tData Devolução" << e->getDataDevolucao(l.getPonteiroParaItem()) << endl;
-            cout << "\t\t--------------------------------------------------------------" << endl;
-        }
-    }
-}
-
-void interface::main()
-{
-    int opcao;
+    int option;
     do
     {
-        cout << "Bem-vindo ao sistema de biblioteca!" << endl;
-        this->apresentarMenu();
-        cout << "Digite a opção desejada: ";
-        cin >> opcao;
-        cin.ignore();
-
-        switch (opcao)
+        try
         {
-        case 1:
-            cadastrarUsuario();
-            break;
-        case 2:
-            cadastrarLivro();
-            break;
-        case 3:
-            cadastrarPeriodico();
-            break;
-        case 4:
-            cadastrarEmprestimo();
-            break;
-        case 5:
-            adicionarItemAoEmprestimo();
-            break;
-        case 6:
-            removerItemDoEmprestimo();
-            break;
-        case 7:
-            devolverTodosItensDoEmprestimo();
-            break;
-        case 8:
-            devolverItemDoEmprestimo();
-            break;
-        case 9:
-            listarPublicacaoPorTitulo();
-            break;
+            this->loanMenuPrint();
+            if (cin >> option)
+            {
+                switch (option)
+                {
+                case 1:
+                    this->loanAddBook(thisLoan);
+                    break;
 
-        case 10:
-            listarLivroPorAutor();
-            break;
+                case 2:
+                    this->loanExcludeBook(thisLoan);
+                    break;
 
-        case 11:
-            listarPublicacoes();
-            break;
+                case 3:
+                    this->loanReturnBook(thisLoan);
+                    break;
 
-        case 12:
-            listarEmprestimos();
-            break;
+                case 4:
+                    this->loanReturnAll(thisLoan);
+                    break;
 
-        case 13:
-            removerEmprestimo();
-            break;
+                case 5:
+                    break;
 
-        case 14:
-            removerLivro();
-            break;
-
-        case 15:
-            removerPeriodico();
-            break;
-
-        case 16:
-            removerUsuario();
-            break;
-
-        case 17:
-            break;
-        default:
-            cout << "Opção inválida!" << endl;
-            break;
+                default:
+                    cout << "Digite uma opção válida!" << endl;
+                    break;
+                }
+            }
+            else
+            {
+                cin.clear();
+                cin.ignore(10000, '\n');
+                throw runtime_error("Carácter inválido");
+            }
         }
-    } while (opcao != 10);
+        catch (const std::exception &e)
+        {
+            std::cerr << e.what() << '\n';
+        }
+
+    } while (option != 5);
+}
+
+void Interface::loanMenuPrint()
+{
+    cout << "1 - Adicionar livro ao empréstimo" << endl;
+    cout << "2 - Remover livro do empréstimo" << endl;
+    cout << "3 - Devolver livro do empréstimo" << endl;
+    cout << "4 - Devolver todos os livros do empréstimo" << endl;
+    cout << "5 - Voltar ao menu principal" << endl;
+}
+
+void Interface::loanAddBook(Loan *thisLoan)
+{
+    int publicationCode;
+
+    cout << "Insira o código de publicação do livro: ";
+    if (!(cin >> publicationCode))
+        throw runtime_error("Carácter inválido");
+
+    string name = myLibrary.loanAddBook(thisLoan, new LoanItem(myLibrary.getBook(publicationCode)));
+
+    cout << name << " adicionado ao empréstimo!" << endl;
+}
+
+void Interface::loanExcludeBook(Loan *thisLoan)
+{
+    int publicationCode;
+
+    cout << "Insira o código de publicação do livro: ";
+    if (!(cin >> publicationCode))
+        throw runtime_error("Carácter inválido");
+
+    string name = myLibrary.loanExcludeBook(thisLoan, new LoanItem(myLibrary.getBook(publicationCode)));
+
+    cout << name << " removido do empréstimo!" << endl;
+}
+
+void Interface::loanReturnBook(Loan *thisLoan)
+{
+    int publicationCode;
+
+    cout << "Insira o código de publicação do livro: ";
+    if (!(cin >> publicationCode))
+        throw runtime_error("Carácter inválido");
+
+    string name = myLibrary.loanReturnBook(thisLoan, new LoanItem(myLibrary.getBook(publicationCode)));
+
+    cout << name << " devolvido com sucesso!" << endl;
+}
+
+void Interface::loanReturnAll(Loan *thisLoan)
+{
+    int loanNumber = myLibrary.loanReturnAll(thisLoan);
+    cout << "Empréstimo número " << loanNumber << " devolvido com sucesso!" << endl;
+}
+
+void Interface::loanExclude(Loan *thisLoan)
+{
+    int loanNumber = myLibrary.loanExclude(thisLoan);
+    cout << "Empréstimo número " << loanNumber << " excluído com sucesso!" << endl;
+}
+
+void Interface::loanPrint() const
+{
+    pair<vector<map<string, string>>, map<int, vector<map<string, string>>>> loanData = myLibrary.loanList();
+
+    for (map<string, string> loan : loanData.first)
+    {
+        cout << "Número do empréstimo: " << loan["number"] << endl;
+        cout << "Nome do usuário: " << loan["userName"] << endl;
+        cout << "CPF do usuário: " << loan["userCpf"] << endl;
+        cout << "Data de Emprestimo: " << loan["loanDate"] << endl;
+        cout << "Data prevista de devolução: " << loan["expectReturnDate"] << endl;
+        cout << "Livros do empréstimo:" << endl;
+
+        for (map<string, string> book : loanData.second[stoi(loan["number"])])
+        {
+            cout << "Código: " << book["code"] << endl;
+            cout << "Título: " << book["title"] << endl;
+            cout << "Autor: " << book["author"] << endl;
+            cout << "Editora: " << book["publisher"] << endl;
+            cout << "Ano: " << book["year"] << endl;
+        }
+    }
+}
+
+void Interface::main()
+{
+    int option;
+    do
+    {
+        try
+        {
+            this->menuPrint();
+            if (cin >> option)
+            {
+                cin.ignore();
+                switch (option)
+                {
+                case 1:
+                    userRegistration();
+                    break;
+
+                case 2:
+                    bookRegistration();
+                    break;
+
+                case 3:
+                    periodicalRegistration();
+                    break;
+
+                case 4:
+                    loanOptions(loanRegistration());
+                    break;
+
+                case 5:
+                    loanOptions(loanByLoanNumber());
+                    break;
+
+                case 6:
+                    publicationPrint(publicationSearchByTitle());
+                    break;
+
+                case 7:
+                    publicationPrint(publicationSearchByAuthor());
+                    break;
+
+                case 8:
+                    publicationPrint(publicationSearchAll());
+                    break;
+
+                case 9:
+                    loanPrint();
+                    break;
+
+                case 10:
+                    loanExclude(loanByLoanNumber());
+                    break;
+
+                case 11:
+                    bookExclude();
+                    break;
+
+                case 12:
+                    periodicalExclude();
+                    break;
+
+                case 13:
+                    userExclude();
+                    break;
+
+                case 14:
+                    break;
+
+                default:
+                    cout << "Opção inválida!" << endl;
+                    break;
+                }
+            }
+            else
+            {
+                cin.clear();
+                cin.ignore(10000, '\n');
+                throw runtime_error("Carácter inválido");
+            }
+        }
+        catch (const std::exception &e)
+        {
+            if (e.what() == "stoi")
+                cout << "Digite um número válido para o código de publicação e ano!" << endl;
+            else
+                std::cerr << e.what() << '\n';
+        }
+    } while (option != 14);
 }
